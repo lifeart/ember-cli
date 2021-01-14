@@ -3,7 +3,6 @@
 const path = require('path');
 const chai = require('chai');
 let expect = chai.expect;
-const processHelpString = require('../helpers/process-help-string');
 const convertToJson = require('../helpers/convert-help-output-to-json');
 const commandOptions = require('../factories/command-options');
 const HelpCommand = require('../../lib/commands/help');
@@ -152,8 +151,6 @@ describe('Acceptance: ember help', function () {
   });
 });
 
-function normalizeResult() {
-  return 1;
-  // let processed = processHelpString(content);
-  // return processed.split(/\n/g).map((str) => str.trim());
+function normalizeResult(content) {
+  return content.split(/\r?\n/).map((str) => str.trim());
 }
