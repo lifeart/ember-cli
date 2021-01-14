@@ -3,6 +3,8 @@
 const path = require('path');
 const chai = require('chai');
 let expect = chai.expect;
+const EOL = require('os').EOL;
+const processHelpString = require('../helpers/process-help-string');
 const convertToJson = require('../helpers/convert-help-output-to-json');
 const commandOptions = require('../factories/command-options');
 const HelpCommand = require('../../lib/commands/help');
@@ -45,7 +47,7 @@ describe('Acceptance: ember help', function () {
 
     let output = options.ui.output;
 
-    expect(output).to.matchSnapshot();
+    expect(normalizeResult(output)).to.matchSnapshot();
   });
 
   it('prints addon commands', function () {
@@ -57,7 +59,7 @@ describe('Acceptance: ember help', function () {
 
     let output = options.ui.output;
 
-    expect(output).to.matchSnapshot();
+    expect(normalizeResult(output)).to.matchSnapshot();
   });
 
   it('prints single addon commands', function () {
@@ -69,7 +71,7 @@ describe('Acceptance: ember help', function () {
 
     let output = options.ui.output;
 
-    expect(output).to.matchSnapshot();
+    expect(normalizeResult(output)).to.matchSnapshot();
   });
 
   it('prints all blueprints', function () {
@@ -77,7 +79,7 @@ describe('Acceptance: ember help', function () {
 
     let output = options.ui.output;
 
-    expect(output).to.matchSnapshot();
+    expect(normalizeResult(output)).to.matchSnapshot();
   });
 
   it('prints helpful message for unknown command', function () {
@@ -94,7 +96,7 @@ describe('Acceptance: ember help', function () {
 
     let output = options.ui.output;
 
-    expect(output).to.matchSnapshot();
+    expect(normalizeResult(output)).to.matchSnapshot();
   });
 
   it('prints blueprints from addons', function () {
@@ -106,7 +108,7 @@ describe('Acceptance: ember help', function () {
 
     let output = options.ui.output;
 
-    expect(output).to.matchSnapshot();
+    expect(normalizeResult(output)).to.matchSnapshot();
   });
 
   describe('--json', function () {
@@ -150,3 +152,15 @@ describe('Acceptance: ember help', function () {
     });
   });
 });
+
+function normalizeResult(content) {
+  let decoded = decodeUnicode(content);
+  let processed = processHelpString(decoded);
+  return processed.replace(/\n/g, EOL);
+}
+
+function decodeUnicode(str) {
+  return str.replace(/\\u([\d\w]{4})/gi, function (match, grp) {
+    return String.fromCharCode(parseInt(grp, 16));
+  });
+}
