@@ -8,6 +8,7 @@ const commandOptions = require('../factories/command-options');
 const HelpCommand = require('../../lib/commands/help');
 const requireAsHash = require('../../lib/utilities/require-as-hash');
 const Command = require('../../lib/models/command');
+const EOL = require('os').EOL;
 
 let FooCommand = Command.extend({
   name: 'foo',
@@ -152,5 +153,8 @@ describe('Acceptance: ember help', function () {
 });
 
 function normalizeResult(content) {
-  return content.split(/\r?\n/).map((str) => str.trim());
+  return content
+    .split(EOL)
+    .map((str) => str.trim())
+    .join('\n');
 }
