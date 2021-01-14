@@ -154,13 +154,6 @@ describe('Acceptance: ember help', function () {
 });
 
 function normalizeResult(content) {
-  let decoded = decodeUnicode(content);
-  let processed = processHelpString(decoded);
-  return processed.replace(/\n/g, EOL);
-}
-
-function decodeUnicode(str) {
-  return str.replace(/\\u([\d\w]{4})/gi, function (match, grp) {
-    return String.fromCharCode(parseInt(grp, 16));
-  });
+  let processed = processHelpString(content);
+  return processed.split(/\n/g).map((str) => str.trim());
 }
