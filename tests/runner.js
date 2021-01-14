@@ -52,9 +52,7 @@ function addFiles(mocha, files) {
 function runMocha() {
   let ROOT = process.cwd();
 
-  mocha.suite.beforeAll(function () {
-    chaiJestSnapshot.resetSnapshotRegistry();
-  });
+  chaiJestSnapshot.resetSnapshotRegistry();
 
   mocha.suite.beforeEach(function () {
     chaiJestSnapshot.configureUsingMochaContext(this);
