@@ -153,8 +153,5 @@ describe('Acceptance: ember help', function () {
 });
 
 function normalizeResult(content) {
-  return content
-    .split(EOL)
-    .map((str) => str.trim())
-    .join('\n');
+  return Buffer.from(content).toString('utf8');
 }
