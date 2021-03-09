@@ -151,6 +151,12 @@ describe('Acceptance: ember help', function () {
   });
 });
 
+function decodeUnicode(str) {
+  return str.replace(/\\u([\d\w]{4})/gi, function (match, grp) {
+    return String.fromCharCode(parseInt(grp, 16));
+  });
+}
+
 function normalizeResult(content) {
-  return Buffer.from(content, 'utf-8').toString('binary');
+  return Buffer.from(decodeUnicode(content), 'utf-8').toString('binary');
 }
