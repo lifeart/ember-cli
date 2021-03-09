@@ -3,6 +3,7 @@
 const path = require('path');
 const chai = require('chai');
 let expect = chai.expect;
+const processHelpString = require('../helpers/process-help-string');
 const convertToJson = require('../helpers/convert-help-output-to-json');
 const commandOptions = require('../factories/command-options');
 const HelpCommand = require('../../lib/commands/help');
@@ -158,5 +159,5 @@ function decodeUnicode(str) {
 }
 
 function normalizeResult(content) {
-  return Buffer.from(decodeUnicode(content), 'utf-8').toString('binary');
+  return Buffer.from(decodeUnicode(processHelpString(content)), 'utf-8').toString('binary');
 }
